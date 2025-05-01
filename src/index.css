@@ -1,13 +1,88 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-in-out;
+}
+.animate-slide-out-horizontal {
+  animation: slideOutHorizontal 0.5s ease-in-out;
+}
+@keyframes slideIn {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes slideOutHorizontal {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(-100%); opacity: 0; }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.hammer {
+  position: absolute;
+  bottom: 2rem; /* Center vertically with bottom block (h-16 / 2) */
+  left: calc(50% + 4rem + 1rem); /* Right of block: width (4rem) + margin (1rem) */
+  width: 50px;
+  height: 70px;
+  z-index: 10;
+  transform-style: preserve-3d;
+  perspective: 500px;
+}
+
+.hammer-handle {
+  width: 12px;
+  height: 50px;
+  background: linear-gradient(#8B4513, #A0522D); /* 3D brown handle */
+  position: absolute;
+  bottom: 0;
+  left: 19px;
+  transform: translateZ(10px);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hammer-head {
+  position: absolute;
+  top: 0;
+  left: 5px;
+  width: 40px;
+  height: 20px;
+  transform-style: preserve-3d;
+}
+
+.hammer-head-front {
+  width: 40px;
+  height: 20px;
+  background: linear-gradient(#808080, #A9A9A9); /* 3D gray front */
+  position: absolute;
+  transform: translateZ(10px);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hammer-head-side {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(#696969, #808080); /* 3D gray side */
+  position: absolute;
+  left: 40px;
+  transform: rotateY(90deg);
+  transform-origin: left;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.animate-hammer-swing {
+  animation: hammerSwing 0.5s ease-in-out forwards;
+}
+
+@keyframes hammerSwing {
+  0% {
+    transform: translateX(0) rotateY(45deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-25px) rotateY(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-25px) rotateY(0deg);
+    opacity: 0;
+  }
 }
