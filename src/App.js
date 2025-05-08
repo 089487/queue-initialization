@@ -57,7 +57,10 @@ function App() {
         <input
           type="number"
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={e => setInputValue(e.target.value)}
+onKeyDown={e => {
+            if (e.key === 'Enter') push()
+          }}
           placeholder="Enter a number"
           className="border p-2 mr-2 rounded w-40"
         />
@@ -102,6 +105,10 @@ function App() {
               } ${
                 animate === 'pop' && i === 0
                   ? 'animate-slide-out-horizontal'
+                  : ''
+              } ${
+                animate === 'pop' && i > 0
+                  ? 'animate-fall-down'
                   : ''
               }`}
             >

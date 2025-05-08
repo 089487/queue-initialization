@@ -103,3 +103,11 @@
 .animate-fall-in {
   animation: fall-in 0.5s ease-out;
 }
+
+@keyframes fall-down {
+  from { transform: translateY(0); }
+  to   { transform: translateY(100%); }
+}
+.animate-fall-down {
+  animation: fall-down 0.5s ease-out forwards;
+}
