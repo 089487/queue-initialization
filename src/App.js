@@ -1,28 +1,31 @@
 import { useState } from 'react';
 import './index.css';
 
+
 function App() {
   const [queue, setQueue] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [animate, setAnimate] = useState(null);
+  const [topIndex, setTopIndex] = useState(0);
   const maxSize = 10;
+
 
   const push = () => {
     if (queue.length >= maxSize) {
       alert('Overflow: Queue is full!');
       return;
     }
-    const num = parseInt(inputValue);
+    const num = parseInt(inputValue, 10);
     if (isNaN(num)) {
       alert('Please enter a valid number!');
       return;
     }
+    setQueue(q => [...q, num]);
+    setInputValue('');
     setAnimate('push');
-    setTimeout(() => {
-      setQueue([...queue, num]);
-      setAnimate(null);
-      setInputValue('');
-    }, 500);
+    setTimeout(() => setAnimate(null), 500);
+    setTopIndex(t => Math.min(t + 1, maxSize));
+    console.log(topIndex);
   };
 
   const pop = () => {
@@ -32,9 +35,11 @@ function App() {
     }
     setAnimate('pop');
     setTimeout(() => {
-      setQueue(queue.slice(1));
+      setQueue(q => q.slice(1));
       setAnimate(null);
     }, 500);
+    setTopIndex(t => Math.max(t - 1, 0));
+    console.log(topIndex);
   };
 
   const peep = () => {
@@ -76,14 +81,28 @@ function App() {
         </button>
       </div>
       <div className="flex justify-center relative">
-        <div className="flex flex-col-reverse items-center">
-          {queue.map((item, index) => (
+        <div
+          className="flex flex-col-reverse items-center"
+          style={{
+            '--max-size': maxSize,
+            '--top': topIndex
+          }}
+        >
+          {queue.map((item, i) => (
             <div
-              key={index}
+              key={i}
               className={`w-16 h-16 flex items-center justify-center border-2 m-1 rounded ${
-                index === 0 ? 'bg-yellow-300 border-yellow-500' : 'bg-gray-200 border-gray-400'
-              } ${animate === 'push' && index === queue.length ? 'animate-slide-in' : ''} ${
-                animate === 'pop' && index === 0 ? 'animate-slide-out-horizontal' : ''
+                i === 0
+                  ? 'bg-yellow-300 border-yellow-500'
+                  : 'bg-gray-200 border-gray-400'
+              } ${
+                animate === 'push' && i === queue.length - 1
+                  ? 'animate-fall-in'
+                  : ''
+              } ${
+                animate === 'pop' && i === 0
+                  ? 'animate-slide-out-horizontal'
+                  : ''
               }`}
             >
               {item}
@@ -93,7 +112,7 @@ function App() {
             <div
               key={`empty-${i}`}
               className="w-16 h-16 border-2 border-dashed border-gray-300 m-1 rounded"
-            ></div>
+            />
           ))}
         </div>
         {animate === 'pop' && queue.length > 0 && (

@@ -19,7 +19,7 @@
 
 .hammer {
   position: absolute;
-  bottom: 2rem; /* Center vertically with bottom block (h-16 / 2) */
+  bottom: -2rem; 
   left: calc(50% + 4rem + 1rem); /* Right of block: width (4rem) + margin (1rem) */
   width: 50px;
   height: 70px;
@@ -85,4 +85,21 @@
     transform: translateX(-25px) rotateY(0deg);
     opacity: 0;
   }
+}
+
+@keyframes fall-in {
+  from {
+    transform: translateY(
+      calc((var(--top) - var(--max-size)) * 100%)
+    );
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fall-in {
+  animation: fall-in 0.5s ease-out;
 }
